@@ -5,10 +5,11 @@ import plotly.graph_objects as go
 import dash  # (version 1.12.0) pip install dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 df = pd.read_csv("Cliquet_sameday_2021-03-15.csv")
 df.reset_index(inplace=True)
@@ -17,8 +18,15 @@ print(df[:5])
 # ------------------------------------------------------------------------------
 # App layout
 app.layout = html.Div([
-
-    html.H1("Same Day Analysis", style={'text-align': 'center'}),
+    dbc.Row(dbc.Col(html.H1("Cliquet Analysis"),style={'text-align': 'center'}
+                        #width={'size': 6, 'offset': 3},
+                        ),
+                ),
+    dbc.Row(dbc.Col(html.H3("Same Day"),
+                        width={'size': 2},
+                        ),
+                ),
+    #html.H1("Same Day Analysis", style={'text-align': 'center'}),
 
     dcc.Dropdown(id="select_asset",
                  options=[
