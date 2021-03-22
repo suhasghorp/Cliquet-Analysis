@@ -1,17 +1,28 @@
 import pandas as pd
 import plotly.express as px  # (version 4.7.0)
-import plotly.graph_objects as go
+from azure.storage.blob import BlobServiceClient
 
 import dash  # (version 1.12.0) pip install dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
+from io import StringIO
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-df = pd.read_csv("Cliquet_sameday_2021-03-15.csv")
+#STORAGEACCOUNTNAME= "sgderivops"
+#STORAGEACCOUNTKEY= "juXnmJdznmjBb3LuNZMKIcv3hC7ap5ub6ROnPOEA3pXK4tYbRkt7eUxb86pSuIoorJUOPqyeCxVAko081nGGVg=="
+#LOCALFILENAME= "sameday.csv"
+CONTAINERNAME= "cliquet-analysis-container"
+BLOBNAME= "Cliquet_sameday_2021-03-15.csv"
+CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=sgderivops;AccountKey=juXnmJdznmjBb3LuNZMKIcv3hC7ap5ub6ROnPOEA3pXK4tYbRkt7eUxb86pSuIoorJUOPqyeCxVAko081nGGVg==;EndpointSuffix=core.windows.net"
+
+blob_service_client = BlobServiceClient.from_connection_string(conn_str=CONNECTION_STRING)
+blob_client = blob_service_client.get_blob_client(container=CONTAINERNAME, blob=BLOBNAME)
+blobstring = blob_client.download_blob()
+df = pd.read_csv(StringIO(blobstring.content_as_text()))
 df.reset_index(inplace=True)
 print(df[:5])
 
