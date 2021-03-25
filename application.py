@@ -35,7 +35,8 @@ VAULT_URL=vault_url_you_know
 Before deploying to azure, 
 
 go into cliquet-analysis webapp Identity, make sure System Assigned is turned on
-In KeyVault access policies, add access policy, select get kv permissions and select principal
+In KeyVault access policies, add access policy, select get kv permissions 
+and select principal as cliquet-analysis.azurewebsites.net
 
 then execute following in PS
 az keyvault set-policy --name kvderivops --spn appId_from_above --secret-permissions get
