@@ -8,3 +8,7 @@ The final product looks like below, this is work in progress and following may c
 
 
 ![Home](../main/images/home.png)
+
+![Same Day Analysis](../main/images/sameday.png)
+
+![Next Day Analysis](../main/images/nextday.png)
