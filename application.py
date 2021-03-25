@@ -8,7 +8,7 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from io import StringIO
-
+import os
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
@@ -30,6 +30,7 @@ For running locally in pycharm, set following 3 env variables in debug/run confi
 AZURE_CLIENT_ID=appId w/o quotes
 AZURE_CLIENT_SECRET=password w/o quotes
 AZURE_TENANT_ID=tenant w/o quotes
+VAULT_URL=vault_url_you_know
 
 Before deploying to azure, 
 
@@ -41,15 +42,14 @@ az keyvault set-policy --name kvderivops --spn appId_from_above --secret-permiss
 
 '''
 
+vault_url = os.environ['VAULT_URL']
 
-
-#dash_app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 dash_app = dash.Dash(__name__)
 app = dash_app.server
 dash_app.config.suppress_callback_exceptions = True
 
 credential = DefaultAzureCredential()
-secret_client = SecretClient(vault_url="https://kvderivops.vault.azure.net/", credential=credential)
+secret_client = SecretClient(vault_url=vault_url, credential=credential)
 connection_string = secret_client.get_secret("CONNECTION-STRING").value
 
 CONTAINERNAME= "cliquet-analysis-container"
