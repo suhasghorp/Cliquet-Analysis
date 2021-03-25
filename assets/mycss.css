@@ -1,0 +1,11 @@
+.VirtualizedSelectOption {
+			     background-color: LightGreen;
+			     color: black;
+			 }
+			 
+			 .VirtualizedSelectFocusedOption {
+			     background-color: green;
+			     font-size: 18px;
+			     color: white;
+			}			
+			
